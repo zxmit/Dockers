@@ -1,0 +1,91 @@
+version: '2'
+
+services:
+  broker1:
+    image: wurstmeister/kafka:0.10.2.1
+    restart: always
+    hostname: broker1
+    container_name: broker1
+    privileged: true
+    ports:
+      - "9092:9092"
+    environment:
+      TZ: Asia/Shanghai
+      KAFKA_BROKER_ID: 1
+      KAFKA_LISTENERS: PLAINTEXT://broker1:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker1:9092
+      KAFKA_ADVERTISED_HOST_NAME: broker1
+      KAFKA_ADVERTISED_PORT: 9092
+      KAFKA_ZOOKEEPER_CONNECT: zoo1:2181,zoo2:2181,zoo3:2181
+      # JMX_PORT: 9988
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./broker1:/kafka/kafka-logs-broker1
+    external_links:
+    - zoo1
+    - zoo2
+    - zoo3
+    networks:
+      default:
+        ipv4_address: 192.168.199.224
+
+  broker2:
+    image: wurstmeister/kafka:0.10.2.1
+    restart: always
+    hostname: broker2
+    container_name: broker2
+    privileged: true
+    ports:
+      - "9093:9093"
+    environment:
+      TZ: Asia/Shanghai
+      KAFKA_BROKER_ID: 2
+      KAFKA_LISTENERS: PLAINTEXT://broker2:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker2:9093
+      KAFKA_ADVERTISED_HOST_NAME: broker2
+      KAFKA_ADVERTISED_PORT: 9093
+      KAFKA_ZOOKEEPER_CONNECT: zoo1:2181,zoo2:2181,zoo3:2181
+      # JMX_PORT: 9988
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./broker2:/kafka/kafka-logs-broker2
+    external_links:
+    - zoo1
+    - zoo2
+    - zoo3
+    networks:
+      default:
+        ipv4_address: 192.168.199.225
+
+  broker3:
+    image: wurstmeister/kafka:0.10.2.1
+    restart: always
+    hostname: broker3
+    container_name: broker3
+    privileged: true
+    ports:
+      - "9094:9094"
+    environment:
+      TZ: Asia/Shanghai
+      KAFKA_BROKER_ID: 3
+      KAFKA_LISTENERS: PLAINTEXT://broker3:9094
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker3:9094
+      KAFKA_ADVERTISED_HOST_NAME: broker3
+      KAFKA_ADVERTISED_PORT: 9094
+      KAFKA_ZOOKEEPER_CONNECT: zoo1:2181,zoo2:2181,zoo3:2181
+      # JMX_PORT: 9988
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./broker3:/kafka/kafka-logs-broker3
+    external_links:
+    - zoo1
+    - zoo2
+    - zoo3
+    networks:
+      default:
+        ipv4_address: 192.168.199.226
+
+networks:
+  default:
+    external:
+      name: zk
